@@ -84,16 +84,16 @@ body {
 }
 
 .metric-card .value {
-    font-size: 72px;
+    font-size: 68px;
     font-weight: bold;
 }
 
 .metric-card .air-quality-value .air-quality-score {
-    font-size: 48px;
+    font-size: 50px;
 }
 
 .metric-card .air-quality-value .air-quality-label {
-    font-size: 28px;
+    font-size: 30px;
 }
 
 .details-grid {
