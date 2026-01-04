@@ -7,6 +7,10 @@ from plugins.base_plugin.base_plugin import BasePlugin
 
 
 class SensorQuote(BasePlugin):
+    def __init__(self):
+        super().__init__()
+        self.zen_quote_api = "https://zenquotes.io/api/random"
+
     def generate_image(self, settings, device_config):
         """Generate image with sensor data on top and zen quote on bottom"""
 
@@ -106,7 +110,7 @@ class SensorQuote(BasePlugin):
         # Fetch new quote
         try:
             response = requests.get(
-                "https://zenquotes.io/api/random",
+                self.zen_quote_api,
                 timeout=10
             )
             response.raise_for_status()
