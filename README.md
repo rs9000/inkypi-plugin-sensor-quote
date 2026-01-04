@@ -20,13 +20,8 @@ The plugin expects a JSON file with the following structure.
 {
     "temperature": "22.0°C",
     "humidity": "56.8%",
-    "pressure": "1000.6 hPa",
-    "gas_resistance": "186806 Ohm",
-    "gas_label": "GOOD",
-    "gas_label_class": "gas-buono",
     "air_quality_score": "74.1",
-    "air_quality_label": "GOOD",
-    "altitude": "105.68 meters"
+    "air_quality_label": "GOOD"
 }
 ```
 

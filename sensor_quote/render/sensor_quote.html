@@ -9,21 +9,13 @@
             <div class="metric-card">
                 <div class="label">TEMP</div>
                 <div class="value text-red">
-                    {% if sensor_data.get("temperature") is number %}
-                        {{ '%.0f' | format(sensor_data.get("temperature")) }}&deg;
-                    {% else %}
-                        --
-                    {% endif %}
+                    {{ sensor_data.get("temperature", "--") }}
                 </div>
             </div>
             <div class="metric-card">
                 <div class="label">HUMID</div>
                 <div class="value text-blue">
-                    {% if sensor_data.get("humidity") is number %}
-                        {{ '%.0f' | format(sensor_data.get("humidity")) }}%
-                    {% else %}
-                        --
-                    {% endif %}
+                    {{ sensor_data.get("humidity", "--") }}
                 </div>
             </div>
         </div>

@@ -83,12 +83,6 @@ class SensorQuote(BasePlugin):
 
         data = json.loads(json_content)
 
-        if "temperature" in data and isinstance(data["temperature"], str):
-            data["temperature"] = float(data["temperature"].replace("°C", ""))
-
-        if "humidity" in data and isinstance(data["humidity"], str):
-            data["humidity"] = float(data["humidity"].replace("%", ""))
-
         return data
 
     def _fetch_zen_quote(self):
