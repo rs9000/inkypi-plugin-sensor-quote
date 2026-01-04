@@ -1,0 +1,66 @@
+{% extends "plugin.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="top-section">
+        <h1 class="title">Indoor air measurements</h1>
+        <img src="{{ icon_path }}" alt="Weather icon" class="weather-icon">
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="label">TEMP</div>
+                <div class="value text-red">
+                    {% if sensor_data.get("temperature") is number %}
+                        {{ '%.0f' | format(sensor_data.get("temperature")) }}&deg;
+                    {% else %}
+                        --
+                    {% endif %}
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="label">HUMID</div>
+                <div class="value text-blue">
+                    {% if sensor_data.get("humidity") is number %}
+                        {{ '%.0f' | format(sensor_data.get("humidity")) }}%
+                    {% else %}
+                        --
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="metrics-grid single-metric-grid">
+            <div class="metric-card">
+                <div class="label">AIR QUALITY SCORE</div>
+                <div class="value air-quality-value 
+                    {% if sensor_data.get("air_quality_label") == 'GOOD' or sensor_data.get("air_quality_label") == 'CLEAN AIR' %}
+                        text-green
+                    {% elif sensor_data.get("air_quality_label") == 'MEDIUM' %}
+                        text-yellow
+                    {% elif sensor_data.get("air_quality_label") == 'BAD' %}
+                        text-red
+                    {% endif %}
+                ">
+                    <span class="air-quality-score">{{ sensor_data.get("air_quality_score", "-") }}</span>
+                    <span class="air-quality-label">({{ sensor_data.get("air_quality_label", "-") }})</span>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="details-grid">
+            <div class="label">Pressure</div>
+            <div class="value">{{ sensor_data.get("pressure", "-") }}</div>
+            <div class="label">Altitude</div>
+            <div class="value">{{ sensor_data.get("altitude", "-") }}</div>
+            <div class="label">Gas Resistance</div>
+            <div class="value">{{ sensor_data.get("gas_resistance", "-") }}</div>
+            <div class="label">Gas Label</div>
+            <div class="value">{{ sensor_data.get("gas_label", "-") }}</div>
+        </div> -->
+    </div>
+    <div class="bottom-section">
+        <div class="quote-section">
+            <div class="quote-title">{{ quote_data.title }}</div>
+            <div class="quote">{{ quote_data.q | safe }}</div>
+            <div class="author">- {{ quote_data.a }}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

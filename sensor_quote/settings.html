@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+        
+        .info-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .info-box p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-box">
+        <p><strong>Sensor & Quote Display Plugin</strong></p>
+        <p>Displays sensor data and a zen quote. The sensor data can be fetched from a remote device via SSH or from a local file.</p>
+    </div>
+
+    <div class="section-title">Data Source</div>
+
+    <div class="form-group">
+        <label for="json_path">JSON File Path *</label>
+        <input type="text" id="json_path" name="json_path" placeholder="/path/to/your/data.json" required>
+        <div class="help-text">Full path to the sensor JSON file. This can be a local path or a path on a remote system.</div>
+    </div>
+
+    <div class="section-title">Remote SSH Configuration (Optional)</div>
+    <div class="info-box" style="background-color: #e3f2fd; border-left-color: #2196f3;">
+        <p style="color: #0d47a1;">Leave the SSH Host and User fields blank to read from a local file path.</p>
+    </div>
+
+    <div class="form-group">
+        <label for="ssh_host">SSH Host</label>
+        <input type="text" id="ssh_host" name="ssh_host" placeholder="hostname">
+        <div class="help-text">Optional. Hostname or IP address of the remote device (e.g., your-device, 192.168.1.100).</div>
+    </div>
+
+    <div class="form-group">
+        <label for="ssh_user">SSH User</label>
+        <input type="text" id="ssh_user" name="ssh_user" placeholder="user">
+        <div class="help-text">Optional. Username for the SSH connection (e.g., user, pi).</div>
+    </div>
+
+    <div class="info-box" style="background-color: #fff3e0; border-left-color: #ff9800;">
+        <p style="color: #e65100;"><strong>For Remote SSH Access</strong></p>
+        <p style="color: #e65100;">Make sure SSH key authentication is configured. Run on this device:</p>
+        <p style="color: #e65100;"><code>ssh-copy-id user@host</code></p>
+    </div>
+
+    <!-- Style Settings will be injected here by the base template -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Prepopulate form when editing existing plugin instance
+            if (typeof loadPluginSettings !== 'undefined' && loadPluginSettings) {
+                document.getElementById('ssh_host').value = pluginSettings.ssh_host || '';
+                document.getElementById('ssh_user').value = pluginSettings.ssh_user || '';
+                document.getElementById('json_path').value = pluginSettings.json_path || '';
+            }
+        });
+    </script>
+</body>
+</html>

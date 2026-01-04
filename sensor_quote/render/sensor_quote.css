@@ -1,0 +1,159 @@
+:root {
+    --black: #000000;
+    --white: #ffffff;
+    --yellow: #ffff00;
+    --red: #ff0000;
+    --blue: #0000ff;
+    --green: #00ff00;
+    --orange: #ff9900;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--black);
+    color: var(--white);
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.top-section {
+    flex: 1;
+    padding: 40px 40px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.weather-icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.bottom-section {
+    flex: 1;
+    padding: 0 40px 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.single-metric-grid {
+    grid-template-columns: 1fr;
+}
+
+.metric-card {
+    text-align: center;
+}
+
+.metric-card .label {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.metric-card .value {
+    font-size: 72px;
+    font-weight: bold;
+}
+
+.metric-card .air-quality-value .air-quality-score {
+    font-size: 48px;
+}
+
+.metric-card .air-quality-value .air-quality-label {
+    font-size: 28px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 30px;
+    font-size: 20px;
+    width: 80%;
+    margin-top: 20px;
+}
+
+.details-grid .label {
+    text-align: right;
+    font-weight: bold;
+}
+
+.details-grid .value {
+    text-align: left;
+}
+
+.quote-section {
+    max-width: 95%;
+}
+
+.quote-section .quote-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.quote-section .quote {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.quote-section .author {
+    font-size: 24px;
+    text-align: right;
+}
+
+/* Color Utility Classes */
+.text-yellow {
+    color: var(--yellow);
+}
+
+.text-red {
+    color: var(--red);
+}
+
+.text-blue {
+    color: var(--blue);
+}
+
+.text-green {
+    color: var(--green);
+}
+
+.text-orange{
+    color: var(--orange);
+}
