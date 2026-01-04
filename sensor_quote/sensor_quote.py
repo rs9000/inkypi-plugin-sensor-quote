@@ -7,8 +7,8 @@ from plugins.base_plugin.base_plugin import BasePlugin
 
 
 class SensorQuote(BasePlugin):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, plugin):
+        super().__init__(plugin)
         self.zen_quote_api = "https://zenquotes.io/api/random"
 
     def generate_image(self, settings, device_config):
@@ -82,6 +82,9 @@ class SensorQuote(BasePlugin):
                 raise RuntimeError(f"Error reading local JSON file: {e}")
 
         data = json.loads(json_content)
+
+        if "temperature" in data and isinstance(data["temperature"], str):
+            data["temperature"] = data["temperature"].replace("C", "").replace("F", "")
 
         return data
 
