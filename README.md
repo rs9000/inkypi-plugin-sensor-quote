@@ -1,6 +1,6 @@
 # Sensor & Quote Plugin for InkyPi
 
-This plugin for InkyPi displays sensor data and an inspirational Zen quote. It's designed to be flexible, allowing you to source sensor data from either a remote device using SSH or a local file.
+This plugin for InkyPi displays ambient sensor data and an inspirational Zen quote. 
 
 ## Features
 
@@ -12,6 +12,15 @@ This plugin is an extension for the [InkyPI](https://github.com/fatihak/InkyPi) 
     *   **Remote (SSH):** Fetch sensor data from a device on your network.
     *   **Local (File):** Read sensor data directly from a local file.
 
+    
+## Install
+
+Install the plugin using the InkyPi CLI, providing the plugin ID and GitHub repository URL:
+
+```bash
+inkypi install sensor_quote https://github.com/rs9000/inkypi-plugin-sensor-quote
+```
+
 ## JSON Data Format
 
 The plugin expects a JSON file with the following structure. 
@@ -21,9 +30,11 @@ The plugin expects a JSON file with the following structure.
     "temperature": "22.0°C",
     "humidity": "56.8%",
     "air_quality_score": "74.1",
-    "air_quality_label": "GOOD"
+    "air_quality_label": "GOOD"  
 }
 ```
+
+Air quality labels "CLEAN AIR", "GOOD", "MEDIUM", "BAD" are mapped to colors.
 
 ## Example on e-ink display
 

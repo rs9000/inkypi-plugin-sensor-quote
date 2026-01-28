@@ -26,9 +26,11 @@
                     {% if sensor_data.get("air_quality_label") == 'GOOD' or sensor_data.get("air_quality_label") == 'CLEAN AIR' %}
                         text-green
                     {% elif sensor_data.get("air_quality_label") == 'MEDIUM' %}
-                        text-yellow
+                        text-black
                     {% elif sensor_data.get("air_quality_label") == 'BAD' %}
                         text-red
+                    {% else %}
+                        text-black
                     {% endif %}
                 ">
                     <span class="air-quality-score">{{ sensor_data.get("air_quality_score", "-") }}</span>
