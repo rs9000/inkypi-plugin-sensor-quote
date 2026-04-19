@@ -18,7 +18,7 @@ This plugin is an extension for the [InkyPI](https://github.com/fatihak/InkyPi) 
 Install the plugin using the InkyPi CLI, providing the plugin ID and GitHub repository URL:
 
 ```bash
-inkypi install sensor_quote https://github.com/rs9000/inkypi-plugin-sensor-quote
+inkypi plugin install sensor_quote https://github.com/rs9000/inkypi-plugin-sensor-quote
 ```
 
 ## JSON Data Format
