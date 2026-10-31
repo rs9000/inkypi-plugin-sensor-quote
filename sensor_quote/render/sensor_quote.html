@@ -23,11 +23,12 @@
             <div class="metric-card">
                 <div class="label">AIR QUALITY SCORE</div>
                 <div class="value air-quality-value 
-                    {% if sensor_data.get("air_quality_label") == 'GOOD' or sensor_data.get("air_quality_label") == 'CLEAN AIR' %}
+                    {% set air_label = sensor_data.get("air_quality_label", "") | upper %}
+                    {% if air_label in ['GOOD', 'CLEAN AIR', 'EXCELLENT'] %}
                         text-green
-                    {% elif sensor_data.get("air_quality_label") == 'MEDIUM' %}
-                        text-black
-                    {% elif sensor_data.get("air_quality_label") == 'BAD' %}
+                    {% elif air_label in ['LIGHTLY POLLUTED', 'MODERATE', 'MEDIUM'] %}
+                        text-orange
+                    {% elif air_label in ['POLLUTED', 'HEAVILY POLLUTED', 'BAD', 'VERY POOR'] %}
                         text-red
                     {% else %}
                         text-black
@@ -36,6 +37,9 @@
                     <span class="air-quality-score">{{ sensor_data.get("air_quality_score", "-") }}</span>
                     <span class="air-quality-label">({{ sensor_data.get("air_quality_label", "-") }})</span>
                 </div>
+                {% if sensor_data.get("iaq_calibration") %}
+                <div class="calibration">{{ sensor_data.get("iaq_calibration") }}</div>
+                {% endif %}
             </div>
         </div>
         <!-- <div class="details-grid">

@@ -82,11 +82,39 @@ class SensorQuote(BasePlugin):
                 raise RuntimeError(f"Error reading local JSON file: {e}")
 
         data = json.loads(json_content)
+        if not isinstance(data, dict):
+            raise ValueError("Sensor JSON must contain an object")
 
-        if "temperature" in data and isinstance(data["temperature"], str):
-            data["temperature"] = data["temperature"].replace("C", "").replace("F", "")
+        # BSEC2 exporters commonly provide both a display string and a numeric
+        # value. Prefer the display string, and fall back to the numeric field.
+        data["temperature"] = self._display_value(
+            data, "temperature", "temperature_c", suffix="°C", precision=1
+        )
+        data["humidity"] = self._display_value(
+            data, "humidity", "humidity_percent", suffix="%", precision=1
+        )
+        data["air_quality_score"] = self._display_value(
+            data, "air_quality_score", "air_quality_score_value", precision=1
+        )
+        data["air_quality_label"] = str(data.get("air_quality_label") or "-").strip()
+        data["iaq_calibration"] = str(data.get("iaq_calibration") or "").strip()
 
         return data
+
+    @staticmethod
+    def _display_value(data, display_key, numeric_key, suffix="", precision=1):
+        value = data.get(display_key)
+        if value is not None and str(value).strip():
+            if isinstance(value, (int, float)) and not isinstance(value, bool):
+                return f"{value:.{precision}f}{suffix}"
+            return str(value).strip()
+
+        value = data.get(numeric_key)
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return f"{value:.{precision}f}{suffix}"
+        if value is not None:
+            return f"{value}{suffix}"
+        return "--"
 
     def _fetch_zen_quote(self):
         today = date.today()

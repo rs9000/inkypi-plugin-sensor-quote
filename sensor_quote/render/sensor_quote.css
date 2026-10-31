@@ -96,6 +96,11 @@ body {
     font-size: 30px;
 }
 
+.calibration {
+    font-size: 18px;
+    margin-top: 8px;
+}
+
 .details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
