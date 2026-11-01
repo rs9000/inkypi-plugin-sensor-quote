@@ -77,4 +77,6 @@ the optional calibration text. Air quality labels such as "CLEAN AIR",
 
 ## Example on e-ink display
 
-<img src="sensor_quote/icons/sensor_quote_Bme.png" alt="Sensor and Quote Example" width="400"/>
+Preview of the BSEC2 layout on a Spectra 6 e-ink display:
+
+<img src="screenshots/sensor_quote_bsec2.png" alt="Sensor and Quote BSEC2 display preview" width="400"/>

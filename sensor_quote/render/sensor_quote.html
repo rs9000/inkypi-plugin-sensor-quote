@@ -1,64 +1,122 @@
 {% extends "plugin.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="top-section">
-        <h1 class="title">Indoor air measurements</h1>
-        <img src="{{ icon_path }}" alt="Weather icon" class="weather-icon">
+{% set air_label = sensor_data.get("air_quality_label", "") | upper %}
+{% if air_label in ['GOOD', 'CLEAN AIR', 'EXCELLENT'] %}
+    {% set air_level = 'air-good' %}
+{% elif air_label in ['LIGHTLY POLLUTED', 'SLIGHTLY POLLUTED'] %}
+    {% set air_level = 'air-light' %}
+{% elif air_label in ['MEDIUM', 'MODERATE', 'MODERATELY POLLUTED'] %}
+    {% set air_level = 'air-moderate' %}
+{% elif air_label in ['POLLUTED', 'HEAVILY POLLUTED', 'VERY POOR', 'BAD', 'VERY POLLUTED'] %}
+    {% set air_level = 'air-poor' %}
+{% else %}
+    {% set air_level = 'air-unknown' %}
+{% endif %}
+
+<main class="container">
+    <section class="top-section">
+        <header class="dashboard-header">
+            <div class="heading-group">
+                <div class="eyebrow">INDOOR AIR</div>
+                <h1 class="title">Air quality</h1>
+            </div>
+            {% if sensor_data.get("air_quality_algorithm") %}
+            <div class="algorithm-badge">{{ sensor_data.get("air_quality_algorithm") }}</div>
+            {% endif %}
+        </header>
+
         <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="label">TEMP</div>
-                <div class="value text-red">
-                    {{ sensor_data.get("temperature", "--") }}
+            <article class="metric-card temperature-card">
+                <div class="metric-label">
+                    <svg class="metric-icon thermometer-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14 14.8V5a3 3 0 0 0-6 0v9.8a5 5 0 1 0 6 0Z" fill="white" stroke="black" stroke-width="1.8"/>
+                        <path d="M11 7v10" stroke="#ff0000" stroke-width="2.4" stroke-linecap="round"/>
+                        <circle cx="11" cy="18" r="2.2" fill="#ff0000"/>
+                    </svg>
+                    <span>TEMP</span>
+                </div>
+                <div class="metric-value">{{ sensor_data.get("temperature", "--") }}</div>
+            </article>
+            <article class="metric-card humidity-card">
+                <div class="metric-label">
+                    <svg class="metric-icon humidity-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2.5S5.2 10 5.2 14.7a6.8 6.8 0 1 0 13.6 0C18.8 10 12 2.5 12 2.5Z" fill="#0000ff" stroke="black" stroke-width="1.5"/>
+                        <path d="M9 15.5a3.1 3.1 0 0 0 2.5 2.8" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span>HUMIDITY</span>
+                </div>
+                <div class="metric-value">{{ sensor_data.get("humidity", "--") }}</div>
+            </article>
+        </div>
+
+        <section class="quality-card {{ air_level }}">
+            <div class="quality-kicker">AIR QUALITY</div>
+            <div class="quality-main">
+                <div class="score-group">
+                    <span class="score">{{ sensor_data.get("air_quality_score", "-") }}</span>
+                    <span class="score-unit">IAQ</span>
+                </div>
+                <div class="quality-status">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span>{{ sensor_data.get("air_quality_label", "-") }}</span>
                 </div>
             </div>
-            <div class="metric-card">
-                <div class="label">HUMID</div>
-                <div class="value text-blue">
-                    {{ sensor_data.get("humidity", "--") }}
-                </div>
+            <div class="quality-scale" aria-hidden="true">
+                <span class="scale-green"></span><span class="scale-yellow"></span><span class="scale-red"></span>
+                <i class="scale-marker"></i>
             </div>
-        </div>
-        <div class="metrics-grid single-metric-grid">
-            <div class="metric-card">
-                <div class="label">AIR QUALITY SCORE</div>
-                <div class="value air-quality-value 
-                    {% set air_label = sensor_data.get("air_quality_label", "") | upper %}
-                    {% if air_label in ['GOOD', 'CLEAN AIR', 'EXCELLENT'] %}
-                        text-green
-                    {% elif air_label in ['LIGHTLY POLLUTED', 'MODERATE', 'MEDIUM'] %}
-                        text-orange
-                    {% elif air_label in ['POLLUTED', 'HEAVILY POLLUTED', 'BAD', 'VERY POOR'] %}
-                        text-red
-                    {% else %}
-                        text-black
-                    {% endif %}
-                ">
-                    <span class="air-quality-score">{{ sensor_data.get("air_quality_score", "-") }}</span>
-                    <span class="air-quality-label">({{ sensor_data.get("air_quality_label", "-") }})</span>
-                </div>
-                {% if sensor_data.get("iaq_calibration") %}
-                <div class="calibration">{{ sensor_data.get("iaq_calibration") }}</div>
-                {% endif %}
-            </div>
-        </div>
-        <!-- <div class="details-grid">
-            <div class="label">Pressure</div>
-            <div class="value">{{ sensor_data.get("pressure", "-") }}</div>
-            <div class="label">Altitude</div>
-            <div class="value">{{ sensor_data.get("altitude", "-") }}</div>
-            <div class="label">Gas Resistance</div>
-            <div class="value">{{ sensor_data.get("gas_resistance", "-") }}</div>
-            <div class="label">Gas Label</div>
-            <div class="value">{{ sensor_data.get("gas_label", "-") }}</div>
-        </div> -->
-    </div>
-    <div class="bottom-section">
-        <div class="quote-section">
-            <div class="quote-title">{{ quote_data.title }}</div>
-            <div class="quote">{{ quote_data.q | safe }}</div>
-            <div class="author">- {{ quote_data.a }}</div>
-        </div>
-    </div>
-</div>
+            {% if sensor_data.get("iaq_calibration") %}
+            <div class="calibration">{{ sensor_data.get("iaq_calibration") }}</div>
+            {% elif sensor_data.get("iaq_accuracy") is not none %}
+            <div class="calibration">Accuracy {{ sensor_data.get("iaq_accuracy") }}/3</div>
+            {% endif %}
+        </section>
+    </section>
+
+    <section class="bottom-section">
+        <div class="quote-heading">{{ quote_data.title }}</div>
+        <blockquote class="quote">{{ quote_data.q | safe }}</blockquote>
+        <div class="author">— {{ quote_data.a }}</div>
+    </section>
+</main>
+
+<script>
+(() => {
+    const fitQuote = () => {
+        const section = document.querySelector(".bottom-section");
+        const heading = document.querySelector(".quote-heading");
+        const quote = document.querySelector(".quote");
+        const author = document.querySelector(".author");
+        if (!section || !heading || !quote || !author) return;
+
+        const sectionStyle = getComputedStyle(section);
+        const availableHeight = section.clientHeight
+            - parseFloat(sectionStyle.paddingTop)
+            - parseFloat(sectionStyle.paddingBottom)
+            - heading.offsetHeight
+            - author.offsetHeight
+            - 2 * parseFloat(sectionStyle.rowGap || sectionStyle.gap || 0);
+
+        let fontSize = parseFloat(getComputedStyle(quote).fontSize);
+        while (quote.scrollHeight > availableHeight && fontSize > 14) {
+            fontSize -= 1;
+            quote.style.fontSize = `${fontSize}px`;
+        }
+
+        if (quote.scrollHeight > availableHeight) {
+            const lineHeight = parseFloat(getComputedStyle(quote).lineHeight);
+            const maxLines = Math.max(1, Math.floor(availableHeight / lineHeight));
+            quote.style.display = "-webkit-box";
+            quote.style.webkitBoxOrient = "vertical";
+            quote.style.webkitLineClamp = String(maxLines);
+            quote.style.overflow = "hidden";
+        }
+    };
+
+    window.addEventListener("load", fitQuote, { once: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitQuote);
+    requestAnimationFrame(fitQuote);
+})();
+</script>
 {% endblock %}
